@@ -86,4 +86,14 @@ TEST(PjRtComputationClientTest, Init) {
       result_literals[0]));
 }
 
+TEST(PjRtComputationClientTest, DeviceOrdinals) {
+  // Get CPU devices
+  tsl::setenv("PJRT_DEVICE", "CPU", true);
+  tsl::setenv("CPU_NUM_DEVICES", 2, true);
+  auto client = std::make_unique<PjRtComputationClient>();
+
+  // Verify that device global ordinals are dense starting at 0.
+  ASSERT_EQ(client->GetAllDevices(), {"CPU:0", "CPU:1"});
+}
+
 }  // namespace xla
