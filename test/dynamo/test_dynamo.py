@@ -123,7 +123,7 @@ class DynamoTrainingBasicTest(unittest.TestCase):
     self.assertTrue(torch.allclose(res_cpu_3, res_xla_dynamo_3.cpu()))
     self.assertTrue(torch.allclose(input.grad, xla_input.grad.cpu()))
 
-  @unittest.skip("Broke by functionalization, #4680")
+  # @unittest.skip("Broke by functionalization, #4680")
   def test_resnet18(self):
     torch._dynamo.reset()
     met.clear_counters()
@@ -219,7 +219,7 @@ class DynamoTrainingOptimizerTest(unittest.TestCase):
       assert torch.allclose(input.grad, xla_input.grad.cpu())
       assert torch.allclose(input, xla_input.cpu())
 
-  @unittest.skip("Broke by functionalization, #4680")
+  # @unittest.skip("Broke by functionalization, #4680")
   def test_resnet18(self):
     torch._dynamo.reset()
     met.clear_counters()

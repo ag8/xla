@@ -356,8 +356,8 @@ at::Tensor AtenFromXlaTensor(XLATensorPtr xla_tensor) {
       // into a functional wrapper later.
       return out;
     } else {
-      auto wrapped = at::functionalization::impl::to_functional_tensor(out);
-      return wrapped;
+      auto wrapped = MaybeWrapTensorToFunctional(out);
+    return wrapped;
     }
   } else {
     return at::Tensor();

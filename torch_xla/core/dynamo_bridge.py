@@ -194,6 +194,7 @@ def is_xla_tensor(tensor: torch.Tensor) -> bool:
 
 
 def extract_compiled_graph(xla_model: torch.fx.GraphModule, xla_args):
+  # os.environ["DISABLE_FUNCTIONALIZATION"] = "1"
   assert all(
       map(
           is_xla_tensor,
@@ -280,6 +281,7 @@ def extract_compiled_graph(xla_model: torch.fx.GraphModule, xla_args):
   torch_xla._XLAC._clear_pending_irs(str(xm.xla_device()))
 
   def optimized_mod(*args):
+    os.environ["DISABLE_FUNCTIONALIZATION"] = "1"
     # mark_step needs to be blocking since we want to access args's XLADatas
     # and they can't be placeholder.
     if any(torch_xla._XLAC._check_tensor_need_materialization(args)):
@@ -316,6 +318,8 @@ def extract_compiled_graph(xla_model: torch.fx.GraphModule, xla_args):
       print(f"optimized_mod takes {time.time() - enter_ts} seconds overall")
 
     none_remover.add_nones(result)
+    os.environ["DISABLE_FUNCTIONALIZATION"] = "0"
     return result
 
+  os.environ["DISABLE_FUNCTIONALIZATION"] = "0"
   return optimized_mod
