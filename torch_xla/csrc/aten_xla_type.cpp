@@ -3316,8 +3316,7 @@ XLANativeFunctions::convolution_backward(
   // its issue.
   // The following is adopted from aten/src/ATen/FunctionalTensorWrapper.cpp:
   // functionalize_op_helper.
-  auto func_grad_output =
-      MaybeWrapTensorToFunctional(grad_output);
+  auto func_grad_output = MaybeWrapTensorToFunctional(grad_output);
   auto func_input = MaybeWrapTensorToFunctional(input);
   auto func_weight = MaybeWrapTensorToFunctional(weight);
 
